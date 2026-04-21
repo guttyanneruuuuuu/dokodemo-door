@@ -48,6 +48,23 @@ button { font-family: inherit; cursor: pointer; }
   0%,100% { filter: drop-shadow(0 0 30px #a864ff66) drop-shadow(0 0 60px #5b2fbf33) }
   50%     { filter: drop-shadow(0 0 60px #c498ffaa) drop-shadow(0 0 120px #8c4cff66) }
 }
+@keyframes cinematicFlash {
+  0% { opacity: 0; transform: scale(0.95) }
+  50% { opacity: 1 }
+  100% { opacity: 0; transform: scale(1.05) }
+}
+@keyframes immersiveGlow {
+  0%,100% { filter: brightness(1) drop-shadow(0 0 20px rgba(172,120,255,.3)) }
+  50% { filter: brightness(1.1) drop-shadow(0 0 40px rgba(172,120,255,.6)) }
+}
+@keyframes warpRipple {
+  0% { transform: scale(1); opacity: 1 }
+  100% { transform: scale(1.8); opacity: 0 }
+}
+@keyframes dataFlow {
+  0% { background-position: 0% 50% }
+  100% { background-position: 100% 50% }
+}
 @keyframes rotateBg {
   0% { transform: rotate(0deg) }
   100% { transform: rotate(360deg) }
@@ -199,28 +216,34 @@ button { font-family: inherit; cursor: pointer; }
 }
 .action-btn {
   position: relative; overflow: hidden;
-  padding: 16px 28px; font-size: 12px; letter-spacing: .3em; text-transform: uppercase;
-  background: rgba(14,12,36,.6); color: #fff;
-  border: 1px solid rgba(172,120,255,.35);
-  backdrop-filter: blur(10px);
-  border-radius: 6px; font-weight: 500;
-  transition: all .3s cubic-bezier(.22,1,.36,1);
+  padding: 16px 32px; font-size: 12px; letter-spacing: .3em; text-transform: uppercase;
+  background: rgba(14,12,36,.75); color: #fff;
+  border: 1px solid rgba(172,120,255,.4);
+  backdrop-filter: blur(12px);
+  border-radius: 8px; font-weight: 600;
+  transition: all .35s cubic-bezier(.22,1,.36,1);
   display: inline-flex; align-items: center; gap: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
 }
 .action-btn::before {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(172,120,255,.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(172,120,255,.3), transparent);
   background-size: 200% 100%;
   opacity: 0; transition: opacity .3s;
 }
-.action-btn:hover { transform: translateY(-2px); border-color: rgba(172,120,255,.7); box-shadow: 0 10px 40px rgba(172,120,255,.35); }
+.action-btn:hover {
+  transform: translateY(-3px);
+  border-color: rgba(172,120,255,.8);
+  box-shadow: 0 12px 48px rgba(172,120,255,.4), inset 0 1px 0 rgba(255,255,255,.1);
+  background: rgba(14,12,36,.9);
+}
 .action-btn:hover::before { opacity: 1; animation: shimmer 1.5s linear infinite; }
 .action-btn.primary {
-  background: linear-gradient(135deg, #5b2fbf 0%, #a864ff 100%);
-  border-color: transparent;
-  box-shadow: 0 8px 32px rgba(172,120,255,.45);
+  background: linear-gradient(135deg, #6b3fbf 0%, #b878ff 100%);
+  border-color: rgba(172,120,255,.6);
+  box-shadow: 0 8px 40px rgba(172,120,255,.5), inset 0 1px 0 rgba(255,255,255,.1);
 }
-.action-btn.primary:hover { box-shadow: 0 12px 56px rgba(172,120,255,.65); }
+.action-btn.primary:hover { box-shadow: 0 14px 64px rgba(172,120,255,.7), inset 0 1px 0 rgba(255,255,255,.15); }
 .act-icon { font-size: 16px; }
 
 /* ─── Daily theme ──────────────────────────────── */
@@ -260,13 +283,15 @@ button { font-family: inherit; cursor: pointer; }
 .wcard {
   position: relative; overflow: hidden;
   padding: 26px 22px; min-height: 300px;
-  background: linear-gradient(180deg, rgba(10,8,24,.85) 0%, rgba(5,4,16,.95) 100%);
-  border: 1px solid var(--hairline); border-radius: 10px;
+  background: linear-gradient(135deg, rgba(10,8,24,.9) 0%, rgba(5,4,16,.98) 100%);
+  border: 1px solid var(--hairline-bright); border-radius: 12px;
   color: #fff; text-align: left; cursor: pointer;
-  transition: transform .3s cubic-bezier(.22,1,.36,1),
-              border-color .3s, box-shadow .3s, background .3s;
+  transition: transform .35s cubic-bezier(.22,1,.36,1),
+              border-color .35s, box-shadow .35s, background .35s, filter .35s;
   display: flex; flex-direction: column;
   animation: fadeInUp .8s ease both;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter: blur(8px);
 }
 .wcard::before {
   content: ''; position: absolute; inset: 0;
@@ -274,8 +299,13 @@ button { font-family: inherit; cursor: pointer; }
   opacity: 0; transition: opacity .4s; pointer-events: none;
   mix-blend-mode: screen;
 }
-.wcard:hover { transform: translateY(-6px) scale(1.01); }
-.wcard:hover::before { opacity: .12; }
+.wcard:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(172,120,255,.6);
+  box-shadow: 0 16px 64px rgba(172,120,255,.25), inset 0 1px 0 rgba(255,255,255,.1);
+  filter: brightness(1.05);
+}
+.wcard:hover::before { opacity: .18; }
 
 .wcard .emoji {
   font-size: 40px; line-height: 1; margin-bottom: 14px;
@@ -354,12 +384,14 @@ button { font-family: inherit; cursor: pointer; }
   animation: fadeInUp 1s ease .5s both;
 }
 .door-prompt .key {
-  display: inline-block; padding: 10px 32px;
-  border: 1px solid rgba(172,120,255,.5); border-radius: 999px;
+  display: inline-block; padding: 12px 40px;
+  border: 2px solid rgba(172,120,255,.7); border-radius: 999px;
   font-size: 12px; letter-spacing: .4em; text-transform: uppercase;
-  background: rgba(10,8,24,.7); backdrop-filter: blur(14px);
-  animation: pulse 2s ease-in-out infinite;
-  box-shadow: 0 4px 32px rgba(172,120,255,.3), inset 0 0 16px rgba(172,120,255,.15);
+  background: linear-gradient(135deg, rgba(10,8,24,.85), rgba(5,4,16,.95));
+  backdrop-filter: blur(16px);
+  animation: pulse 2s ease-in-out infinite, immersiveGlow 2.5s ease-in-out infinite;
+  box-shadow: 0 8px 48px rgba(172,120,255,.45), inset 0 1px 0 rgba(255,255,255,.1), 0 0 20px rgba(172,120,255,.2);
+  font-weight: 600;
 }
 .door-prompt .caption {
   margin-top: 16px; color: var(--ink-2); font-size: 10px;
@@ -394,10 +426,14 @@ button { font-family: inherit; cursor: pointer; }
   text-align: center; color: #fff; z-index: 5; pointer-events: none;
 }
 .warp-caption .where {
-  font-family: 'Shippori Mincho', serif; font-size: clamp(28px, 5vw, 48px);
-  letter-spacing: .18em; font-weight: 700;
-  animation: fadeInUp 1.2s ease .2s both;
-  text-shadow: 0 4px 48px rgba(0,0,0,.9);
+  font-family: 'Shippori Mincho', serif; font-size: clamp(32px, 6vw, 56px);
+  letter-spacing: .18em; font-weight: 800;
+  animation: fadeInUp 1.2s ease .2s both, immersiveGlow 2.5s ease-in-out infinite;
+  text-shadow: 0 4px 48px rgba(0,0,0,.95), 0 0 32px rgba(172,120,255,.3);
+  background: linear-gradient(180deg, #fff 0%, #c89cff 50%, #a864ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .warp-caption .when {
   font-family: 'IBM Plex Mono', monospace;
@@ -408,15 +444,17 @@ button { font-family: inherit; cursor: pointer; }
 .warp-progress {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 240px; height: 3px;
-  background: rgba(255,255,255,.06); border-radius: 2px;
+  width: 280px; height: 4px;
+  background: rgba(255,255,255,.08); border-radius: 2px;
   overflow: hidden; z-index: 5; pointer-events: none;
+  box-shadow: 0 0 20px rgba(172,120,255,.3), inset 0 0 8px rgba(172,120,255,.1);
 }
 .warp-progress-bar {
   width: 0%; height: 100%;
-  background: linear-gradient(90deg, #a864ff, #4afc9e, #a864ff);
-  background-size: 200% 100%;
-  animation: shimmer 1.2s linear infinite;
+  background: linear-gradient(90deg, #a864ff, #4afc9e, #ff4488, #a864ff);
+  background-size: 300% 100%;
+  animation: shimmer 1s linear infinite;
+  box-shadow: 0 0 12px rgba(172,120,255,.8), 0 0 24px rgba(74,252,158,.4);
 }
 
 /* ─── World view (after arrival) ─────────────── */
@@ -424,6 +462,10 @@ button { font-family: inherit; cursor: pointer; }
   position: fixed; inset: 0; z-index: 400; background: #000;
 }
 .world-stage canvas { display: block; width: 100%; height: 100%; }
+.world-stage::after {
+  content: ''; position: fixed; inset: 0; z-index: 409;
+  pointer-events: none; background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.3) 100%);
+}
 .world-hud {
   position: fixed; inset: 0; pointer-events: none; z-index: 410;
 }
@@ -482,10 +524,12 @@ button { font-family: inherit; cursor: pointer; }
 }
 .discovery {
   max-width: 500px;
-  padding: 14px 18px;
-  background: rgba(10,8,24,.7); backdrop-filter: blur(14px);
-  border: 1px solid rgba(172,120,255,.25); border-radius: 8px;
-  box-shadow: 0 8px 40px rgba(0,0,0,.5);
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(10,8,24,.85), rgba(5,4,16,.95));
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(172,120,255,.35); border-radius: 10px;
+  box-shadow: 0 12px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.08);
+  animation: immersiveGlow 3s ease-in-out infinite;
 }
 .discovery-label {
   font-size: 9px; color: var(--brand-violet);
@@ -550,12 +594,13 @@ button { font-family: inherit; cursor: pointer; }
   animation: fadeIn .3s ease both; padding: 16px;
 }
 .modal {
-  width: min(90vw, 560px); max-height: 85vh; overflow-y: auto;
-  background: linear-gradient(180deg, rgba(14,12,36,.98), rgba(5,4,16,.98));
-  border: 1px solid rgba(172,120,255,.25); border-radius: 14px;
-  padding: 32px; color: #fff;
+  width: min(90vw, 580px); max-height: 85vh; overflow-y: auto;
+  background: linear-gradient(135deg, rgba(14,12,36,.98), rgba(5,4,16,.98));
+  border: 1px solid rgba(172,120,255,.35); border-radius: 16px;
+  padding: 36px; color: #fff;
   animation: scaleIn .3s cubic-bezier(.22,1,.36,1) both;
-  box-shadow: 0 32px 120px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.05);
+  box-shadow: 0 40px 160px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.08), 0 0 40px rgba(172,120,255,.15);
+  backdrop-filter: blur(12px);
 }
 .modal h2 {
   font-family: 'Shippori Mincho', serif; font-size: 24px; margin: 0 0 12px;
